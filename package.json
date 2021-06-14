@@ -1,0 +1,22 @@
+{
+  "name": "analytics-connector",
+  "version": "0.0.1",
+  "description": "indexer connector",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node ./bin/www",
+    "debug": "nodemon --inspect ./bin/www"
+  },
+  "author": "icerove",
+  "license": "ISC",
+  "dependencies": {
+    "bn.js": "^5.2.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-validator": "^6.11.1",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.7",
+    "pg": "^8.6.0"
+  }
+}
