@@ -8,7 +8,7 @@ app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-app.use('/', require('./api/index'))
+app.use('/connect', require('./api/index'))
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
