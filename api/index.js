@@ -10,6 +10,6 @@ const getResult = async (req, res) => {
   res.json(result)
 }
 
-router.get('/',validationErrorHandler, getResult)
+router.post('/',validationErrorHandler, getResult)
 
 module.exports = router
