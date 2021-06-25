@@ -7,7 +7,7 @@ const pool = new Pool({
   port: 5432,
 });
 
-const queryForPartnerTransactions = (timestamp, partner_list) => {
+const queryForPartnerTransactions = async (timestamp, partner_list) => {
   return await new Promise(function (resolve, reject) {
     pool.query(
       `SELECT
@@ -33,7 +33,7 @@ const queryForPartnerTransactions = (timestamp, partner_list) => {
   });
 };
 
-const queryForPartnerUniqueUserAmount = (timestamp, partner_list) => {
+const queryForPartnerUniqueUserAmount = async (timestamp, partner_list) => {
   return await new Promise(function (resolve, reject) {
     pool.query(
       `SELECT
