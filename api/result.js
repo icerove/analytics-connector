@@ -25,10 +25,7 @@ const getQueryResultFromIndexer = async (query) => {
 
 const storeResultIntoDatabase = async (result, queryId) => {
   let myHeaders = new Headers();
-  myHeaders.append(
-    'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNvbm5lY3RvciIsInVzZXJpZCI6MTMsImlhdCI6MTYyNTAyMDgwNCwiZXhwIjoxNjI1NjI1NjA0fQ.VZ9Zi3aJzn2BFkRo-MYUIp6QVN1nLCjmoMlOz3hCgew'
-  );
+  myHeaders.append('Authorization', 'Bearer ' + process.env.UPDATE_TOKEN);
   myHeaders.append('Content-Type', 'application/json');
 
   let raw = JSON.stringify({
@@ -56,10 +53,7 @@ const storeResultIntoDatabase = async (result, queryId) => {
 
 const updateResultFromDatabase = async (result, resultId, queryId) => {
   let myHeaders = new Headers();
-  myHeaders.append(
-    'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNvbm5lY3RvciIsInVzZXJpZCI6MTMsImlhdCI6MTYyNTAyMDgwNCwiZXhwIjoxNjI1NjI1NjA0fQ.VZ9Zi3aJzn2BFkRo-MYUIp6QVN1nLCjmoMlOz3hCgew'
-  );
+  myHeaders.append('Authorization', 'Bearer ' + process.env.UPDATE_TOKEN);
   myHeaders.append('Content-Type', 'application/json');
 
   let raw = JSON.stringify({
