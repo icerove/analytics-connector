@@ -1,37 +1,27 @@
 const { Router } = require('express');
-const { getQueryResultFromIndexer } = require('./result');
 const { validationErrorHandler } = require('./error');
-const {
-  queryForPartnerTransactions,
-  queryForPartnerUniqueUserAmount,
-} = require('./partner');
 
 const router = new Router();
 
 const getResult = async (req, res) => {
-  query = req.body.query;
-  result = await getQueryResultFromIndexer(query);
-  res.json(result);
-};
+  resultId = req.body.resultId;
+  if (!resultId) {
+    res.json('Query do not exits');
+  }
+  requestOptions = {
+    method: 'POST',
+    redirect: 'follow',
+  };
 
-const getResultForPartnerTransaction = async (req, res) => {
-  (timestamp = req.body.timestamp), (partner_list = req.body.partner_list);
-  result = await queryForPartnerTransactions(timestamp, partner_list);
-  res.json(result);
-};
+  let show_res;
+  fetch('localhost:3000/result/' + resultId, requestOptions)
+    .then((response) => response.json())
+    .then((result) => (show_res = result))
+    .catch((error) => console.log('error', error));
 
-const getResultForPartnerUser = async (req, res) => {
-  (timestamp = req.body.timestamp), (partner_list = req.body.partner_list);
-  result = await queryForPartnerUniqueUserAmount(timestamp, partner_list);
-  res.json(result);
+  res.json(show_res);
 };
 
 router.post('/', validationErrorHandler, getResult);
-router.post(
-  '/partner-transaction',
-  validationErrorHandler,
-  getResultForPartnerTransaction
-);
-router.post('/partner-user', validationErrorHandler, getResultForPartnerUser);
 
 module.exports = router;
