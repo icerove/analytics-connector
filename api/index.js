@@ -1,11 +1,14 @@
 const { Router } = require('express');
 const { validationErrorHandler } = require('./error');
-
+const {
+  getQueryResultFromIndexer,
+  storeResultIntoDatabase,
+} = require('./result');
 const router = new Router();
 
-const getResult = async (req, res) => {
-  resultId = req.body.resultId;
-  if (!resultId) {
+const getAndStoreResult = async (req, res) => {
+  queryId = req.body.queryId;
+  if (!queryId) {
     res.json('Query do not exits');
   }
   requestOptions = {
@@ -13,15 +16,23 @@ const getResult = async (req, res) => {
     redirect: 'follow',
   };
 
-  let show_res;
-  fetch('localhost:3000/result/' + resultId, requestOptions)
+  let query, final, query_result;
+  fetch('localhost:3000/query/' + queryId, requestOptions)
     .then((response) => response.json())
-    .then((result) => (show_res = result))
+    .then((result) => (query = result.query))
     .catch((error) => console.log('error', error));
+  if (query) {
+    query_result = await getQueryResultFromIndexer(query);
+  }
+  if (query_result) {
+    final = await storeResultIntoDatabase(query_result, queryId);
+  } else {
+    final = 'query result cannot reach';
+  }
 
-  res.json(show_res);
+  res.json(final);
 };
 
-router.post('/', validationErrorHandler, getResult);
+router.post('/', validationErrorHandler, getAndStoreResult);
 
 module.exports = router;

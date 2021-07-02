@@ -1,7 +1,7 @@
 const moment = require('moment');
 const {
   getQueryResultFromIndexer,
-  storeResultIntoDatabase,
+  updateResultFromDatabase,
 } = require('./api/result');
 
 function sleep(ms) {
@@ -12,7 +12,6 @@ async function main() {
   console.log('update every 3 hrs');
   while (true) {
     let start_time = new Date();
-    console.log(start_time);
     while (true) {
       try {
         await updateResult();
@@ -26,7 +25,7 @@ async function main() {
       }
     }
     let finish_time = new Date();
-    console.log(finish_time);
+    console.log(start_time, finish_time);
     let executed_time = moment(finish_time).diff(start_time);
     let wait_time =
       executed_time > 3 * 60 * 60000
@@ -37,10 +36,7 @@ async function main() {
 }
 
 async function updateResult() {
-  let myHeaders = new Headers();
-  myHeaders.append('Content-Type', 'application/json');
-
-  let requestOptions = {
+  requestOptions = {
     method: 'GET',
     redirect: 'follow',
   };
@@ -56,27 +52,35 @@ async function updateResult() {
     });
   if (resultList) {
     for (let i = 0; i < resultList.length; i++) {
-      await getandStoreResult(resultList[i].query_id);
+      final = await getAndUpdateResult(
+        resultList[i].result_id,
+        resultList[i].query_id
+      );
+      console.log(final);
     }
   }
 }
 
-const getandStoreResult = async (queryId) => {
+const getAndUpdateResult = async (resultId, queryId) => {
   requestOptions = {
     method: 'GET',
     redirect: 'follow',
   };
 
-  let query;
+  let query, final, query_result;
   fetch('localhost:3000/query/' + queryId, requestOptions)
     .then((response) => response.json())
     .then((result) => (query = result.query))
     .catch((error) => console.log('error', error));
-
-  query_result = await getQueryResultFromIndexer(query);
-  if (query_result) {
-    final = await storeResultIntoDatabase(query_result, queryId);
+  if (query) {
+    query_result = await getQueryResultFromIndexer(query);
   }
+  if (query_result) {
+    final = await updateResultFromDatabase(query_result, resultId, queryId);
+  } else {
+    final = 'query result cannot reach';
+  }
+  return final;
 };
 
 main();

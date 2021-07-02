@@ -54,5 +54,37 @@ const storeResultIntoDatabase = async (result, queryId) => {
   return res;
 };
 
+const updateResultFromDatabase = async (result, resultId, queryId) => {
+  let myHeaders = new Headers();
+  myHeaders.append(
+    'Authorization',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNvbm5lY3RvciIsInVzZXJpZCI6MTMsImlhdCI6MTYyNTAyMDgwNCwiZXhwIjoxNjI1NjI1NjA0fQ.VZ9Zi3aJzn2BFkRo-MYUIp6QVN1nLCjmoMlOz3hCgew'
+  );
+  myHeaders.append('Content-Type', 'application/json');
+
+  let raw = JSON.stringify({
+    result: result,
+    executedAt: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+    queryId: queryId,
+  });
+
+  let requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow',
+  };
+
+  let res;
+
+  fetch('localhost:3000/result/' + resultId, requestOptions)
+    .then((response) => response.json())
+    .then((result) => (res = result))
+    .catch((error) => console.log('error', error));
+
+  return res;
+};
+
 exports.getQueryResultFromIndexer = getQueryResultFromIndexer;
 exports.storeResultIntoDatabase = storeResultIntoDatabase;
+exports.updateResultFromDatabase = updateResultFromDatabase;
