@@ -44,7 +44,7 @@ async function updateResult() {
   };
 
   let resultList;
-  fetch('localhost:3000/result/list', requestOptions)
+  fetch('http://localhost:3000/result/list', requestOptions)
     .then((response) => response.json())
     .then((result) => {
       resultList = result;
@@ -70,7 +70,7 @@ const getAndUpdateResult = async (resultId, queryId) => {
   };
 
   let query, final, query_result;
-  fetch('localhost:3000/query/' + queryId, requestOptions)
+  fetch('http://localhost:3000/query/' + queryId, requestOptions)
     .then((response) => response.json())
     .then((result) => (query = result.query))
     .catch((error) => console.log('error', error));

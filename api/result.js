@@ -45,7 +45,7 @@ const storeResultIntoDatabase = async (result, queryId) => {
 
   let res;
 
-  fetch('localhost:3000/result', requestOptions)
+  fetch('http://localhost:3000/result', requestOptions)
     .then((response) => response.json())
     .then((result) => (res = result))
     .catch((error) => console.log('error', error));
@@ -73,7 +73,7 @@ const updateResultFromDatabase = async (result, resultId, queryId) => {
 
   let res;
 
-  fetch('localhost:3000/result/' + resultId, requestOptions)
+  fetch('lhttp://localhost:3000/result/' + resultId, requestOptions)
     .then((response) => response.json())
     .then((result) => (res = result))
     .catch((error) => console.log('error', error));
