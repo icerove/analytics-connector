@@ -1,4 +1,6 @@
 const moment = require('moment');
+const fetch = require('node-fetch');
+
 // get result from indexer
 const Pool = require('pg').Pool;
 const pool = new Pool({

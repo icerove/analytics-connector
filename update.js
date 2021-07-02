@@ -1,4 +1,6 @@
 const moment = require('moment');
+const fetch = require('node-fetch');
+
 const {
   getQueryResultFromIndexer,
   updateResultFromDatabase,

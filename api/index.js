@@ -5,6 +5,7 @@ const {
   storeResultIntoDatabase,
 } = require('./result');
 const router = new Router();
+const fetch = require('node-fetch');
 
 const getAndStoreResult = async (req, res) => {
   queryId = req.body.queryId;
