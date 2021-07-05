@@ -20,10 +20,14 @@ const getAndStoreResult = async (req, res) => {
   let query, final, query_result;
   fetch('http://localhost:3000/query/' + queryId, requestOptions)
     .then((response) => response.json())
-    .then((result) => (query = result.query))
+    .then((result) => {
+      console.log(result);
+      query = result.query;
+    })
     .catch((error) => console.log('error', error));
   if (query) {
     query_result = await getQueryResultFromIndexer(query);
+    console.log(query_result);
   }
   if (query_result) {
     final = await storeResultIntoDatabase(query_result, queryId);
