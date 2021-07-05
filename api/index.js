@@ -3,41 +3,48 @@ const { validationErrorHandler } = require('./error');
 const {
   getQueryResultFromIndexer,
   storeResultIntoDatabase,
-} = require('./result');
-const router = new Router();
-const fetch = require('node-fetch');
+  getQuery,
+} = require('../utils');
 
 const getAndStoreResult = async (req, res) => {
   queryId = req.body.queryId;
   if (!queryId) {
     res.json('Query do not exits');
   }
-  requestOptions = {
-    method: 'POST',
-    redirect: 'follow',
-  };
+  let query, final;
 
-  let query, final, query_result;
-  fetch('http://localhost:3000/query/' + queryId, requestOptions)
-    .then((response) => response.json())
-    .then((result) => {
-      console.log(result);
-      query = result.query;
-    })
-    .catch((error) => console.log('error', error));
+  try {
+    query = await getQuery(queryId);
+  } catch (e) {
+    console.log('error', e);
+  }
+
   if (query) {
-    query_result = await getQueryResultFromIndexer(query);
-    console.log(query_result);
+    try {
+      final = await getAndStore(query, queryId);
+    } catch (e) {
+      console.log('final error', e);
+    }
   }
-  if (query_result) {
-    final = await storeResultIntoDatabase(query_result, queryId);
-  } else {
-    final = 'query result cannot reach';
-  }
-
   res.json(final);
 };
 
+const getAndStore = async (query, queryId) => {
+  query_result = await getQueryResultFromIndexer(query);
+  let final;
+  if (query_result) {
+    try {
+      final = await storeResultIntoDatabase(query_result, queryId);
+    } catch (e) {
+      final = e;
+    }
+  } else {
+    final = 'query result cannot reach';
+  }
+  return final;
+};
+
+const router = new Router();
 router.post('/', validationErrorHandler, getAndStoreResult);
 
 module.exports = router;

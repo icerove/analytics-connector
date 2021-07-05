@@ -1,0 +1,25 @@
+{
+  "dev": {
+      "driver": "pg",
+      "host": "localhost",
+      "database": "analytics",
+      "user": "me",
+      "password": "analytics_8"
+  },
+
+  "test": {
+      "driver": "pg",
+      "host": "localhost",
+      "database": "analytics_test",
+      "user": "icerove",
+      "password": "test_test"
+  },
+
+  "production": {
+      "driver": "pg",
+      "host": {"ENV": "PGHOST"},
+      "database": {"ENV": "PGDATABASE"},
+      "user": {"ENV": "PGUSER"},
+      "password": {"ENV": "PGPASSWORD"}
+  }
+}

@@ -1,9 +1,10 @@
 const moment = require('moment');
-const fetch = require('node-fetch');
 
 const {
   getQueryResultFromIndexer,
   updateResultFromDatabase,
+  getQuery,
+  getResultList,
 } = require('./api/result');
 
 function sleep(ms) {
@@ -38,20 +39,8 @@ async function main() {
 }
 
 async function updateResult() {
-  requestOptions = {
-    method: 'GET',
-    redirect: 'follow',
-  };
+  let resultList = getResultList();
 
-  let resultList;
-  fetch('http://localhost:3000/result/list', requestOptions)
-    .then((response) => response.json())
-    .then((result) => {
-      resultList = result;
-    })
-    .catch((error) => {
-      console.log('error', error);
-    });
   if (resultList) {
     for (let i = 0; i < resultList.length; i++) {
       final = await getAndUpdateResult(
@@ -64,24 +53,23 @@ async function updateResult() {
 }
 
 const getAndUpdateResult = async (resultId, queryId) => {
-  requestOptions = {
-    method: 'GET',
-    redirect: 'follow',
-  };
+  let query = await getQuery(queryId);
 
-  let query, final, query_result;
-  fetch('http://localhost:3000/query/' + queryId, requestOptions)
-    .then((response) => response.json())
-    .then((result) => (query = result.query))
-    .catch((error) => console.log('error', error));
   if (query) {
-    query_result = await getQueryResultFromIndexer(query);
+    try {
+      query_result = await getQueryResultFromIndexer(query);
+      try {
+        if (query_result) {
+          final = await updateResultFromDatabase(query_result, resultId);
+        }
+      } catch (e) {
+        final = e;
+      }
+    } catch (e) {
+      console.log('get result from indexer error', e);
+    }
   }
-  if (query_result) {
-    final = await updateResultFromDatabase(query_result, resultId, queryId);
-  } else {
-    final = 'query result cannot reach';
-  }
+
   return final;
 };
 
