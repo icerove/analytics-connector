@@ -27,9 +27,11 @@ const getQueryResultFromIndexer = async (query) => {
 
 const storeResultIntoDatabase = async (result, queryId) => {
   let executedAt = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+  console.log(executedAt);
   let res;
   try {
     res = await pool.query(sql.createResult({ result, executedAt, queryId }));
+    console.log('after create result', res);
   } catch (e) {
     res = e;
   }

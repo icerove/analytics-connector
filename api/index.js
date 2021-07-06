@@ -29,6 +29,7 @@ const getAndStoreResult = async (req, res) => {
     console.log('come to final');
     try {
       final = await getAndStore(query, queryId);
+      console.log('final', final);
     } catch (e) {
       console.log('final error', e);
     }
@@ -38,6 +39,7 @@ const getAndStoreResult = async (req, res) => {
 
 const getAndStore = async (query, queryId) => {
   query_result = await getQueryResultFromIndexer(query);
+  console.log('query_result', query_result);
   let final;
   if (query_result) {
     try {
