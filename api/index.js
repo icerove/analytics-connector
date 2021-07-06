@@ -13,7 +13,7 @@ const {
 const getAndStoreResult = async (req, res) => {
   queryId = req.body.queryId;
   if (!queryId) {
-    res.json('Query do not exit');
+    res.json('Query do not find');
   }
   let query, final;
 
@@ -50,7 +50,7 @@ const getAndStore = async (query, queryId) => {
 
 const router = new Router();
 router.use('/query', query);
-router.use('./result', result);
+router.use('/result', result);
 router.post('/store', validationErrorHandler, getAndStoreResult);
 
 module.exports = router;
