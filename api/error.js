@@ -19,7 +19,7 @@ inherits(PhotoFormatNotSupport, Error);
 
 const adminCheck = (token) => {
   if (token === process.env.UPDATE_TOKEN) {
-    return ture;
+    return true;
   }
   return false;
 };
