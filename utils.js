@@ -56,7 +56,7 @@ const getQuery = async (queryId) => {
   try {
     result = await pool.query(sql.getQuery({ queryId }));
     console.log(result);
-    query = result.query;
+    query = result.rows[0].query;
   } catch (e) {
     console.log('get query error', e);
   }
