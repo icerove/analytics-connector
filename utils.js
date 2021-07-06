@@ -2,8 +2,8 @@ const moment = require('moment');
 const { pool, sql } = require('./db');
 
 // get result from indexer
-const Pool = require('pg').Pool;
-const pool = new Pool({
+const IPool = require('pg').Pool;
+const ipool = new IPool({
   user: 'explorer',
   host: '35.240.76.233',
   database: 'mainnet_explorer',
@@ -13,7 +13,7 @@ const pool = new Pool({
 
 const getQueryResultFromIndexer = async (query) => {
   return await new Promise(function (resolve, reject) {
-    pool.query(query, (error, results) => {
+    ipool.query(query, (error, results) => {
       if (error) {
         reject(error);
       } else {
@@ -27,16 +27,14 @@ const getQueryResultFromIndexer = async (query) => {
 
 const storeResultIntoDatabase = async (result, queryId) => {
   let executedAt = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
-  let result;
+  let res;
   try {
-    result = await pool.query(
-      sql.createResult({ result, executedAt, queryId })
-    );
+    res = await pool.query(sql.createResult({ result, executedAt, queryId }));
   } catch (e) {
-    result = e;
+    res = e;
   }
 
-  return result;
+  return res;
 };
 
 // update result into database
