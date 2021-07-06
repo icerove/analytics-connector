@@ -67,7 +67,7 @@ const getResult = async (req, res) => {
 const getResultList = async (req, res) => {
   console.log('come here');
   result = await pool.query(sql.getResultList());
-  res.json(result.rows[0]);
+  res.json(result.rows);
 };
 
 const router = new Router();

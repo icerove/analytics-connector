@@ -12,6 +12,7 @@ const {
 
 const getAndStoreResult = async (req, res) => {
   queryId = req.body.queryId;
+  console.log('come here');
   if (!queryId) {
     res.json('Query do not find');
   }
@@ -19,11 +20,13 @@ const getAndStoreResult = async (req, res) => {
 
   try {
     query = await getQuery(queryId);
+    console.log('query', query);
   } catch (e) {
     console.log('error', e);
   }
 
   if (query) {
+    console.log('come to final');
     try {
       final = await getAndStore(query, queryId);
     } catch (e) {
