@@ -80,6 +80,6 @@ router.post(
 );
 router.delete('/:id', validationErrorHandler, deleteResult);
 router.get('/:id', validationErrorHandler, getResult);
-router.get('/list', validationErrorHandler, getResultList);
+router.get('/', validationErrorHandler, getResultList);
 
 module.exports = router;
