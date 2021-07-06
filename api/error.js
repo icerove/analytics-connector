@@ -18,7 +18,7 @@ const { inherits } = require('util');
 inherits(PhotoFormatNotSupport, Error);
 
 const adminCheck = (token) => {
-  if (token === process.env.UPDATE_TOKEN) {
+  if (process.env.UPDATE_TOKEN || token === process.env.UPDATE_TOKEN) {
     return true;
   }
   return false;
