@@ -1,5 +1,9 @@
 const { Router } = require('express');
 const { validationErrorHandler } = require('./error');
+
+const query = require('./query');
+const result = require('./result');
+
 const {
   getQueryResultFromIndexer,
   storeResultIntoDatabase,
@@ -9,7 +13,7 @@ const {
 const getAndStoreResult = async (req, res) => {
   queryId = req.body.queryId;
   if (!queryId) {
-    res.json('Query do not exits');
+    res.json('Query do not exit');
   }
   let query, final;
 
@@ -45,6 +49,8 @@ const getAndStore = async (query, queryId) => {
 };
 
 const router = new Router();
-router.post('/', validationErrorHandler, getAndStoreResult);
+router.use('/query', query);
+router.use('./result', result);
+router.post('/store', validationErrorHandler, getAndStoreResult);
 
 module.exports = router;
