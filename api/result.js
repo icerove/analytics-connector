@@ -67,7 +67,7 @@ const getResult = async (req, res) => {
 const getResultList = async (req, res) => {
   console.log('come here');
   result = await pool.query(sql.getResultList());
-  res.json(result.rows);
+  res.json(result.rows[0]);
 };
 
 const router = new Router();
@@ -80,6 +80,6 @@ router.post(
 );
 router.delete('/:id', validationErrorHandler, deleteResult);
 router.get('/:id', validationErrorHandler, getResult);
-router.get('/', validationErrorHandler, getResultList);
+router.get('/list', validationErrorHandler, getResultList);
 
 module.exports = router;
