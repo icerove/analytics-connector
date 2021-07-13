@@ -12,9 +12,9 @@ const createQuery = async (req, res) => {
   chartType = req.body.chartType;
   projectId = req.body.projectId;
   token = req.body.token;
-  console.log(token);
+
   let admin = adminCheck(token);
-  console.log(admin);
+
   if (admin) {
     result = await pool.query(
       sql.createQuery({ title, query, chartType, projectId })
