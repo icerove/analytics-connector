@@ -26,7 +26,6 @@ const getAndStoreResult = async (req, res) => {
   }
 
   if (query) {
-    console.log('come to final');
     try {
       final = await getAndStore(query, queryId);
       console.log('final', final);
@@ -38,7 +37,8 @@ const getAndStoreResult = async (req, res) => {
 };
 
 const getAndStore = async (query, queryId) => {
-  query_result = await getQueryResultFromIndexer(query);
+  let query_result = await getQueryResultFromIndexer(query);
+  query_result = JSON.stringify(query_result);
   console.log('query_result', query_result);
   let final;
   if (query_result) {
