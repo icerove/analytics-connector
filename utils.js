@@ -30,8 +30,10 @@ const storeResultIntoDatabase = async (result, queryId) => {
   console.log(executedAt);
   let res;
   try {
-    res = await pool.query(sql.createResult({ result, executedAt, queryId }));
-    console.log('after create result', res);
+    total_res = await pool.query(
+      sql.createResult({ result, executedAt, queryId })
+    );
+    res = total_res.rows[0];
   } catch (e) {
     res = e;
   }
