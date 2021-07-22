@@ -46,13 +46,13 @@ async function updateResult() {
   }catch(e){
     console.log('update get result list error', e)
   }
-  console.log(resultList)
   if (resultList) {
     for (let i = 0; i < resultList.length; i++) {
       final = await getAndUpdateResult(
         resultList[i].result_id,
         resultList[i].query_id
       );
+      console.log(final)
     }
   }
 }
