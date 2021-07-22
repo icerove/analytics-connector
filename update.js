@@ -41,7 +41,8 @@ async function main() {
 async function updateResult() {
   let resultList
   try {
-    resultList = await getResultList()
+    res = await getResultList()
+    resultList = res.rows  
   }catch(e){
     console.log('update get result list error', e)
   }
