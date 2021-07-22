@@ -40,7 +40,7 @@ async function main() {
 
 async function updateResult() {
   let resultList = getResultList();
-
+  console.log(resultList)
   if (resultList) {
     for (let i = 0; i < resultList.length; i++) {
       final = await getAndUpdateResult(
