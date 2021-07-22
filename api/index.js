@@ -5,15 +5,10 @@ const { tokenRequired } = require('../lib/jwt');
 const query = require('./query');
 const result = require('./result');
 
-const {
-  getQueryResultFromIndexer,
-  storeResultIntoDatabase,
-  getQuery,
-} = require('../utils');
+const { storeResultIntoDatabase, getQuery } = require('../utils');
 
 const getAndStore = async (query, queryId) => {
-  let query_result = await getQueryResultFromIndexer(query);
-  query_result = JSON.stringify(query_result);
+  let query_result = 'In process';
   let final;
   if (query_result) {
     try {
@@ -33,18 +28,16 @@ const getAndStoreResult = async (req, res) => {
     res.json('Query do not find');
   }
   let query, final;
-
   try {
     query = await getQuery(queryId);
     console.log('query', query);
   } catch (e) {
-    console.log('error', e);
+    console.log('get query error', e);
   }
 
   if (query) {
     try {
       final = await getAndStore(query, queryId);
-      console.log('final', final);
     } catch (e) {
       final = e;
       console.log('final error', e);
@@ -58,7 +51,6 @@ const getAndStoreResultWithAdmin = async (req, res) => {
   token = req.body.token;
 
   let admin = adminCheck(token);
-
   if (!queryId) {
     res.json('Query do not find');
   }
@@ -68,7 +60,7 @@ const getAndStoreResultWithAdmin = async (req, res) => {
       query = await getQuery(queryId);
       console.log('query', query);
     } catch (e) {
-      console.log('error', e);
+      console.log('get query error', e);
     }
 
     if (query) {

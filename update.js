@@ -47,26 +47,33 @@ async function updateResult() {
         resultList[i].result_id,
         resultList[i].query_id
       );
-      console.log(final);
     }
   }
 }
 
 const getAndUpdateResult = async (resultId, queryId) => {
-  let query = await getQuery(queryId);
+  let query, query_result, final;
+  try {
+    query = await getQuery(queryId);
+  } catch (e) {
+    console.log('update get query error', e);
+  }
 
   if (query) {
     try {
       query_result = await getQueryResultFromIndexer(query);
-      try {
-        if (query_result) {
-          final = await updateResultFromDatabase(query_result, resultId);
-        }
-      } catch (e) {
-        final = e;
-      }
+      query_result = JSON.stringify(query_result);
     } catch (e) {
-      console.log('get result from indexer error', e);
+      console.log('update get result from indexer error', e);
+    }
+  }
+
+  if (query_result) {
+    try {
+      final = await updateResultFromDatabase(query_result, resultId);
+    } catch (e) {
+      final = e;
+      console.log('update final error', e);
     }
   }
 

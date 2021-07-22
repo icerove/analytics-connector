@@ -27,7 +27,6 @@ const getQueryResultFromIndexer = async (query) => {
 
 const storeResultIntoDatabase = async (result, queryId) => {
   let executedAt = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
-  console.log(executedAt);
   let res;
   try {
     total_res = await pool.query(
