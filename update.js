@@ -39,7 +39,12 @@ async function main() {
 }
 
 async function updateResult() {
-  let resultList = getResultList();
+  let resultList
+  try {
+    resultList = await getResultList()
+  }catch(e){
+    console.log('update get result list error', e)
+  }
   console.log(resultList)
   if (resultList) {
     for (let i = 0; i < resultList.length; i++) {
