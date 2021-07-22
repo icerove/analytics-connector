@@ -5,7 +5,7 @@ const {
   updateResultFromDatabase,
   getQuery,
   getResultList,
-} = require('./api/result');
+} = require('./utils');
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
