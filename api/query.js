@@ -7,17 +7,26 @@ const { pool, sql } = require('../db');
 const createQueryValidator = body('content').trim();
 
 const createQuery = async (req, res) => {
-  title = req.body.title;
+  queryName = req.body.query_name;
   query = req.body.query;
-  chartType = req.body.chartType;
-  projectId = req.body.projectId;
+  options = req.body.options;
+  formatting = req.body.formatting;
+  createTime = req.body.create_time;
+  userId = 0;
   token = req.body.token;
 
   let admin = adminCheck(token);
 
   if (admin) {
     result = await pool.query(
-      sql.createQuery({ title, query, chartType, projectId })
+      sql.createQuery({
+        queryName,
+        query,
+        options,
+        formatting,
+        createTime,
+        userId,
+      })
     );
     res.status(201).json(result.rows[0]);
   } else {
@@ -26,17 +35,29 @@ const createQuery = async (req, res) => {
 };
 
 const updateQuery = async (req, res) => {
-  title = req.body.title;
+  queryName = req.body.query_name;
   query = req.body.query;
-  chartType = req.body.chartType;
-  projectId = req.body.projectId;
+  options = req.body.options;
+  formatting = req.body.formatting;
+  createTime = req.body.create_time;
+  userId = 0;
   token = req.body.token;
 
   queryId = req.params.id;
 
   let admin = adminCheck(token);
   if (admin) {
-    await pool.query(sql.updateQuery({ title, query, chartType, projectId, queryId }));
+    await pool.query(
+      sql.updateQuery({
+        queryName,
+        query,
+        options,
+        formatting,
+        createTime,
+        userId,
+        queryId,
+      })
+    );
     res.json('Query is updated');
   } else {
     res.json('Not Admin');

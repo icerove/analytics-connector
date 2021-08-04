@@ -1,32 +1,30 @@
 -- getQueryList
 SELECT * FROM queries
-  WHERE project_id = :projectId;
+  WHERE user_id = :userId;
 
 -- createQuery
-INSERT INTO queries (title, query, chart_type, project_id) VALUES
-  (:title, :query, :chartType, :projectId)
+INSERT INTO queries (query_name, query, options, formatting, create_time, user_id) VALUES
+  (:queryName, :query, :options, :formatting, :createTime, :userId)
   RETURNING *;
 
 -- updateQuery
 UPDATE queries SET 
-title= :title,
+query_name= :queryName,
 query = :query,
-chart_type = :chartType,
-project_id = :projectId
- WHERE query_id = :queryId
+options = :options,
+formatting = :formatting,
+create_time = :createTime,
+user_id = :userId
+WHERE query_id = :queryId
+RETURNING *;
 
 -- deleteQuery
 DELETE FROM queries WHERE query_id = :queryId
 
 -- checkQuery
 SELECT * FROM queries
-WHERE query_id = :queryId AND project_id = :projectId
+WHERE query_id = :queryId AND user_id = :userId
 
 -- getQuery
 SELECT * FROM queries
 WHERE query_id = :queryId
-
--- transferQuery
-UPDATE queries SET 
-project_id = :projectId
- WHERE query_id = :queryId
