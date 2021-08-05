@@ -28,13 +28,16 @@ const updateResult = async (req, res) => {
   result = req.body.result;
   resultId = req.params.id;
   executedAt = req.body.executedAt;
+  queryId = req.body.queryId;
 
   token = req.body.token;
 
   admin = adminCheck(token);
 
   if (admin) {
-    await pool.query(sql.updateResult({ result, executedAt, resultId }));
+    await pool.query(
+      sql.updateResult({ result, executedAt, queryId, resultId })
+    );
     res.json('Result is updated');
   } else {
     res.json('Not Admin');
