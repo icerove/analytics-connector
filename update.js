@@ -39,12 +39,12 @@ async function main() {
 }
 
 async function updateResult() {
-  let resultList
+  let resultList;
   try {
-    res = await getResultList()
-    resultList = res.rows  
-  }catch(e){
-    console.log('update get result list error', e)
+    res = await getResultList();
+    resultList = res.rows;
+  } catch (e) {
+    console.log('update get result list error', e);
   }
   if (resultList) {
     for (let i = 0; i < resultList.length; i++) {
@@ -52,7 +52,7 @@ async function updateResult() {
         resultList[i].result_id,
         resultList[i].query_id
       );
-      console.log(final)
+      console.log(final);
     }
   }
 }
@@ -76,7 +76,7 @@ const getAndUpdateResult = async (resultId, queryId) => {
 
   if (query_result) {
     try {
-      final = await updateResultFromDatabase(query_result, resultId);
+      final = await updateResultFromDatabase(query_result, resultId, queryId);
     } catch (e) {
       final = e;
       console.log('update final error', e);

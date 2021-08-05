@@ -41,11 +41,13 @@ const storeResultIntoDatabase = async (result, queryId) => {
 };
 
 // update result into database
-const updateResultFromDatabase = async (result, resultId) => {
+const updateResultFromDatabase = async (result, resultId, queryId) => {
   let executedAt = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
   let res;
   try {
-    res = await pool.query(sql.updateResult({ result, executedAt, resultId }));
+    res = await pool.query(
+      sql.updateResult({ result, executedAt, queryId, resultId })
+    );
   } catch (e) {
     res = e;
   }
