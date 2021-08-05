@@ -27,6 +27,8 @@ const createResult = async (req, res) => {
 const updateResult = async (req, res) => {
   result = req.body.result;
   resultId = req.params.id;
+  executedAt = req.body.executedAt;
+
   token = req.body.token;
 
   admin = adminCheck(token);
