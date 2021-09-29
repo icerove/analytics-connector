@@ -1,6 +1,5 @@
 -- getQueryList
 SELECT * FROM queries
-  WHERE user_id = :userId;
 
 -- createQuery
 INSERT INTO queries (query_name, query, options, formatting, create_time, user_id) VALUES

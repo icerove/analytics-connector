@@ -88,10 +88,16 @@ const getQuery = async (req, res) => {
   res.json(result.rows[0]);
 };
 
+const getQueryList = async (req, res) => {
+  result = await pool.query(sql.getQueryList());
+  res.json(result.rows);
+};
+
 const router = new Router();
 router.post('/', createQueryValidator, validationErrorHandler, createQuery);
 router.post('/:id', createQueryValidator, validationErrorHandler, updateQuery);
 router.delete('/:id', validationErrorHandler, deleteQuery);
 router.get('/:id', validationErrorHandler, getQuery);
+router.get('/', validationErrorHandler, getQueryList);
 
 module.exports = router;
