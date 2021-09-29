@@ -4,10 +4,10 @@ const { pool, sql } = require('./db');
 // get result from indexer
 const IPool = require('pg').Pool;
 const ipool = new IPool({
-  user: 'explorer',
-  host: '35.240.76.233',
-  database: 'mainnet_explorer',
-  password: 'H+848CGRqtqZ4vVd',
+  user: process.env.USER,
+  host: process.env.HOST,
+  database: process.env.DATABASE,
+  password: process.env.PASSWORD,
   port: 5432,
 });
 
